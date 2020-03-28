@@ -30,12 +30,14 @@ def split_text(text):
 
 # Open a text file and display it
 def openFile():
+    label_count['text'] = '0'
+    save_label['text'] = f"Saved {label_count['text']}.wav"
+    save_label.pack_forget()
     file_name = filedialog.askopenfilename(initialdir = "./text",
                                                 title = "Select file",
                                                 filetypes = (("text files","*.txt"),("all files","*.*")))
     if file_name:
         text = split_text(file_name)
-        label_count['text'] = '0'
         total_sens['text'] = str(len(text))
         text_label['text'] = '@@'.join(text)
         lines = [str(i) + ".wav\n" + t for i, t in enumerate(text)]
@@ -61,6 +63,7 @@ p = pyaudio.PyAudio()  # Create an interface to PortAudio
 end = False
 def record():
     if label_count['text'] != total_sens['text'] and label_count['text'] != '-1':
+        save_label.pack_forget()
         buttonRec.pack_forget()
         buttonPre.pack_forget()
         buttonNext.pack_forget()

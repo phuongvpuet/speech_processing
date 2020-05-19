@@ -75,7 +75,7 @@ def main():
 	'trong': 11    
 	}
 	#Load dataset
-	class_names = [f for f in os.listdir('data') if os.path.isdir(f)]
+	class_names = [f for f in os.listdir('data') if os.path.isdir(os.path.join('data', f))]
 	dataset = {}
 	for cname in class_names:
 	    print(f"-->Load {cname} dataset")
@@ -85,7 +85,7 @@ def main():
 	all_vectors = np.concatenate([np.concatenate(v, axis=0) for k, v in dataset.items()], axis=0)
 	print("vectors", all_vectors.shape)
 	# Run K-Means algorithm to get clusters
-	kmeans = clustering(all_vectors, n_clusters=30)
+	kmeans = clustering(all_vectors, n_clusters=35)
 
 	#Train model
 	models = {}
@@ -147,7 +147,7 @@ def main():
 			
 	#Extract models parameters
 	with open("Models_parameters.txt", "w") as f:
-		for cname, model in hmms.items():
+		for cname, model in models.items():
 			f.write(f"Model_name : {cname}\n")
 			f.write("Startprob matrix:\n")
 			f.write(" ".join(map(str, model.startprob_)))

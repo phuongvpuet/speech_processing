@@ -137,7 +137,7 @@ header.pack(pady=10)
 
 predict_class = Label(bg='white')
 predict_class['font'] = font_predict
-predict_class.pack(pady=20)
+predict_class.pack(pady=30)
 # create bottom frame to hold button
 bottomframe = Frame(window)
 bottomframe.pack(side='bottom', pady=3)

@@ -152,13 +152,13 @@ def stop():
         max_log_likelihood = max(log_likelihood.values())
         keys, values = list(log_likelihood.keys()), list(log_likelihood.values())
         winner = keys[values.index(max_log_likelihood)]
-    # if winner == "f0003":
-    #     winner = "Phuong"
-    text['text'] = "Hello " + winner + ", wait a second!"
-    root.after(1000, lambda: os.startfile(os.path.join(os.getcwd(), "albums")))
-    root.after(2000, show_album)
-    # else:
-    #     text['text'] = "You are not Phuong!"
+    if winner == "f0003":
+        winner = "Phuong"
+        text['text'] = "Hello " + winner + ", wait a second!"
+        root.after(1000, lambda: os.startfile(os.path.join(os.getcwd(), "albums")))
+        root.after(2000, show_album)
+    else:
+        text['text'] = "You are not Phuong!"
     buttonStop.pack_forget()
     buttonRec.pack()
     pass
@@ -177,12 +177,26 @@ def show_album():
         stream.stop_stream()
         stream.close()
     #os.startfile(os.path.join(os.getcwd(), "albums"))
+blackWhite_change = 0
+inverCl = 0
+def changebw():
+    global blackWhite_change
+    if blackWhite_change == 0:
+        blackWhite_change = 1
+    else: 
+        blackWhite_change = 0
+
+def invert():
+    global inverCl
+    if inverCl == 0:
+        inverCl = 1
+    else:
+        inverCl = 0
 
 width, height = 800, 600
 cap = cv2.VideoCapture(0)
 cap.set(cv2.CAP_PROP_FRAME_WIDTH, width)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
-
 
 root = Tk()
 root.wm_protocol("WM_DELETE_WINDOW", quit)
@@ -215,17 +229,49 @@ buttonRec.pack()
 buttonStop = Button(show_album_frame, text="Stop", width=20, height=2, relief='solid', fg='white', bg="#a51e1a", command=stop)#24b24e
 buttonStop['font'] = font
 
+#Black White
+blackWhite = Button(root, text="BlackWhite on/off", width=20, height=2, relief='solid', fg='white', bg="black", command=changebw)
+blackWhite['font'] = font
+blackWhite.place(x=20, y=10)
+scale = 20
+
+#Invert
+invertColor = Button(root, text="Invert Color on/off", width=20, height=2, relief='solid', fg='white', bg="black", command=invert)
+invertColor['font'] = font
+invertColor.place(x=300, y=10)
 
 def show_frame(event):
+    global blackWhite_change
+    global inverCl
+    global scale
+    def up(event):
+        global scale
+        if scale < 80:
+            scale += 1
+    def down(event):
+        global scale
+        if scale > 20:
+            scale -= 1
     while True:
         _, frame = cap.read()
         frame = cv2.flip(frame, 1)
-
+        h, w, c = frame.shape
+        centerX, centerY = int(h/2), int(w/2)
+        frame = frame[centerX-int(10*h/scale):centerX+int(10*h/scale), centerY-int(10*w/scale):centerY+int(10*w/scale)]
+        frame = cv2.resize(frame, (w, h))
         image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        if blackWhite_change:
+            image = cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
+        if inverCl:
+            image = ~image
         image = Image.fromarray(image)
         image = ImageTk.PhotoImage(image)
         lmain.configure(image=image)
         lmain.image = image
+
+        root.bind("<Up>", up)
+        root.bind("<Down>", down)
+            
         if event.isSet():
             timestr = time.strftime("%Y%m%d_%H%M%S")
             label = f"albums/IMG_{timestr}.jpg"

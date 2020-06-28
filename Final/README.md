@@ -1,7 +1,4 @@
-# Cập nhật 25/06/2020 (Phuong Nguyen Van)</b>
-<hr/>
-
-<h1>Bài tập cuối kỳ xử lý tiếng nói</h1>
+# Bài tập cuối kỳ xử lý tiếng nói
 
 * Cách cài đặt và chạy thử, lựa chọn 1 trong 2 (khuyến khích miniconda cho nhẹ)
   * [Miniconda](https://docs.conda.io/en/latest/miniconda.html)
@@ -25,6 +22,20 @@ conda install --file requirements.txt
 ```bash
 python main.py
 ```
+<hr />
+
+# Cập nhật 28/06/2020 (Phuong Nguyen Van)
+
+<hr />
+
+* Đã thêm 3 chức năng 
+  * Phóng to/thu nhỏ bằng 2 phím mũi tên lên xuống 
+  * Thêm filter lọc trắng đen
+  * Thêm filter đảo ngược màu
+
+# Cập nhật 25/06/2020 (Phuong Nguyen Van)
+
+<hr/>
 
 <h2>Các chức năng hiện tại</h2>
 <ul>

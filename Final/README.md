@@ -16,7 +16,7 @@ conda activate base
 <p>Cài đặt những package cần thiết</p>
 
 ```bash
-conda install -r requirements.txt
+conda install --file requirements.txt
 ```
 
 <hr/>

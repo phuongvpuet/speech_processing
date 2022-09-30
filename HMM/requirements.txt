@@ -6,7 +6,7 @@ cycler==0.10.0
 decorator==4.4.2
 hmmlearn==0.2.3
 idna==2.9
-joblib==0.14.1
+joblib==1.2.0
 kiwisolver==1.2.0
 librosa==0.7.2
 llvmlite==0.31.0
